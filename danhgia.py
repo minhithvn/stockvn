@@ -313,6 +313,67 @@ def linear_forecast(df, days_ahead=14):
 # ----------------------- # Streamlit UI # -----------------------
 st.set_page_config(page_title="Cổ phiếu + Kỹ thuật + Cơ bản", layout="wide")
 st.title("📈 Phân tích toàn cảnh:Định giá, Lợi nhuận, Tài chính, Tăng trưởng")
+# --------------------------------------------------
+# Hiển thị chú thích tiếng Việt về các chỉ số tài chính & kỹ thuật
+# --------------------------------------------------
+with st.expander("📘 Giải thích các chỉ số (bấm để xem)"):
+    st.markdown("""
+    ### 💹 **Chỉ số kỹ thuật**
+    - **EMA (Exponential Moving Average)** — Đường trung bình động hàm mũ:  
+      → EMA12 phản ứng nhanh (ngắn hạn), EMA26 phản ứng chậm (dài hạn)  
+      → Khi EMA12 cắt EMA26 từ dưới lên ⇒ *Golden Cross* (tín hiệu MUA)  
+      → Khi EMA12 cắt EMA26 từ trên xuống ⇒ *Death Cross* (tín hiệu BÁN)
+
+    - **MACD (Moving Average Convergence Divergence)** — Đo độ mạnh/yếu của xu hướng:  
+      → *MACD > Signal* ⇒ Xu hướng tăng (Bullish)  
+      → *MACD < Signal* ⇒ Xu hướng giảm (Bearish)  
+      → *Histogram* thể hiện động lượng tăng/giảm
+
+    - **RSI (Relative Strength Index)** — Chỉ số sức mạnh tương đối:  
+      → RSI > 70 ⇒ Quá mua (*Overbought*)  
+      → RSI < 30 ⇒ Quá bán (*Oversold*)  
+      → RSI ≈ 50 ⇒ Trung tính
+
+    ---
+
+    ### 🧾 **Chỉ số định giá**
+    - **P/E (Price to Earnings)** — Hệ số giá/lợi nhuận: thấp ⇒ có thể đang bị định giá thấp  
+    - **P/B (Price to Book)** — Giá/thặng dư vốn: < 1 ⇒ rẻ so với giá trị sổ sách  
+    - **EPS (Earnings Per Share)** — Lợi nhuận trên mỗi cổ phiếu: cao ⇒ sinh lời tốt  
+    - **Dividend Yield** — Tỷ suất cổ tức: cao ⇒ cổ tức ổn định  
+    - **PEG (Price/Earnings to Growth)** — P/E chia cho tăng trưởng lợi nhuận: < 1 ⇒ định giá thấp so với tốc độ tăng trưởng
+
+    ---
+
+    ### 💼 **Hiệu quả kinh doanh**
+    - **ROE (Return on Equity)** — Lợi nhuận trên vốn chủ sở hữu: > 15% ⇒ tốt  
+    - **ROA (Return on Assets)** — Lợi nhuận trên tổng tài sản: cao ⇒ sử dụng tài sản hiệu quả  
+    - **Profit Margin** — Biên lợi nhuận ròng: cao ⇒ hoạt động hiệu quả
+
+    ---
+
+    ### 🧮 **An toàn tài chính**
+    - **Debt to Equity (D/E)** — Tỷ lệ nợ/vốn chủ: < 1 ⇒ an toàn, > 2 ⇒ rủi ro cao  
+    - **Current Ratio** — Hệ số thanh toán hiện hành: > 1.5 ⇒ tốt  
+    - **Quick Ratio** — Hệ số thanh toán nhanh: > 1 ⇒ khả năng trả nợ ngắn hạn tốt
+
+    ---
+
+    ### 🚀 **Tăng trưởng tương lai**
+    - **Revenue Growth** — Tăng trưởng doanh thu: cao, ổn định ⇒ doanh nghiệp phát triển tốt  
+    - **EPS Growth** — Tăng trưởng lợi nhuận trên cổ phiếu: phản ánh triển vọng dài hạn  
+    - **Cash Flow Growth** — Tăng trưởng dòng tiền: ổn định ⇒ tài chính lành mạnh
+
+    ---
+
+    ### 📊 **Tổng hợp đánh giá**
+    - **Technical Rating** — Đánh giá kỹ thuật (RSI, MACD, EMA)  
+    - **Fundamental Rating** — Đánh giá cơ bản (P/E, ROE, D/E, EPS, tăng trưởng)  
+    - **Financial Safety** — An toàn tài chính  
+    - **Growth Potential** — Tiềm năng tăng trưởng  
+    - **Final Recommendation** — Kết luận đầu tư (MUA / GIỮ / BÁN / THEO DÕI)
+    """)
+
 stock_code = st.text_input("Nhập mã cổ phiếu:", "MSN").strip().upper()
 period = st.selectbox("Khoảng thời gian dữ liệu:", ["3mo", "6mo", "1y", "2y"], index=1)
 days_to_predict = st.slider("Số ngày dự đoán (ngày làm việc):", 5, 60, 14)
@@ -506,3 +567,4 @@ if st.button("🚀 Phân tích"):
         })
         csv = export_df.to_csv(index=False).encode("utf-8")
         st.download_button("Tải kết quả phân tích (.csv)", data=csv, file_name=f"{stock_code}_analysis.csv", mime="text/csv")
+
