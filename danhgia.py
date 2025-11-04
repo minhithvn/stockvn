@@ -538,13 +538,17 @@ if st.button("🚀 Phân tích"):
         else:
             # Không có điểm cơ bản -> chỉ dùng kỹ thuật
             if buy_signal_today:
-                final_recommendation = "🚀 **MUA THÊM** (Tín hiệu kỹ thuật: Golden Cross + RSI < 30)"
+                decision = "🚀 **MUA TỐT** (Golden Cross + RSI thấp, xu hướng tăng mạnh)"
             elif macd_bullish and latest_rsi < 70:
-                final_recommendation = "✅ **NÊN GIỮ** (Kỹ thuật ủng hộ)"
-            elif latest_rsi > 70:
-                final_recommendation = "⚠️ **THEO DÕI** (RSI cao có thể quá mua)"
+                decision = "✅ **GIỮ HOẶC MUA THÊM** (Xu hướng tăng, chưa quá mua)"
+            elif macd_bullish and latest_rsi >= 70:
+                decision = "⚠️ **THEO DÕI** (Giá có thể điều chỉnh sau khi quá mua)"
+            elif not macd_bullish and latest_rsi > 70:
+                decision = "💰 **CHỐT LỜI** (Xu hướng giảm sau quá mua)"
+            elif not macd_bullish and latest_rsi < 30:
+                decision = "🕐 **THEO DÕI MUA** (RSI thấp, có thể tạo đáy)"
             else:
-                final_recommendation = "⏸️ **CHỜ THÊM TÍN HIỆU**"
+                decision = "⏸️ **KHÔNG MUA MỚI** (Xu hướng giảm, chưa có tín hiệu hồi phục)"
 
         st.markdown("## 💡 Kết luận tổng hợp")
         st.markdown(f"- **Tín hiệu kỹ thuật (MACD bullish?)**: {'TĂNG' if macd_bullish else 'GIẢM'}")
@@ -567,4 +571,3 @@ if st.button("🚀 Phân tích"):
         })
         csv = export_df.to_csv(index=False).encode("utf-8")
         st.download_button("Tải kết quả phân tích (.csv)", data=csv, file_name=f"{stock_code}_analysis.csv", mime="text/csv")
-
