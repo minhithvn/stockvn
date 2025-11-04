@@ -311,8 +311,8 @@ def linear_forecast(df, days_ahead=14):
 
 
 # ----------------------- # Streamlit UI # -----------------------
-st.set_page_config(page_title="Cổ phiếu + Kỹ thuật + Cơ bản", layout="wide")
-st.title("📈 Phân tích toàn cảnh:Định giá, Lợi nhuận, Tài chính, Tăng trưởng")
+st.set_page_config(page_title="Định giá, Lợi nhuận, Tài chính, Tăng trưởng", layout="wide")
+st.title("📈 Định giá, Lợi nhuận, Tài chính, Tăng trưởng")
 # --------------------------------------------------
 # Hiển thị chú thích tiếng Việt về các chỉ số tài chính & kỹ thuật
 # --------------------------------------------------
@@ -571,3 +571,4 @@ if st.button("🚀 Phân tích"):
         })
         csv = export_df.to_csv(index=False).encode("utf-8")
         st.download_button("Tải kết quả phân tích (.csv)", data=csv, file_name=f"{stock_code}_analysis.csv", mime="text/csv")
+
